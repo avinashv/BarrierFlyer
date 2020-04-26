@@ -51,6 +51,7 @@ class PlayState extends FlxState {
         
         // create UI
         scoreUI = new FlxText(0, SHIP_SIZE, -1, "", SHIP_SIZE);
+        scoreUI.alignment = CENTER;
         add(scoreUI);
         updateScore();
     }
@@ -61,6 +62,14 @@ class PlayState extends FlxState {
         handleShipMovement(); // move the ship
         checkBarrierAlive(); // kill barriers that fall off the screen and increment score
         checkEmitBarrier(); // should we emit a barrier?
+        
+        FlxG.overlap(ship, barriers, gameOver);
+    }
+    
+    private function gameOver(ship:FlxSprite, barrier:FlxTypedSpriteGroup<FlxSprite>) {
+        FlxG.camera.fade(FlxColor.BLACK, 1, false, function() {
+            FlxG.switchState(new GameOverState(score));
+        });
     }
     
     private function updateScore() {
