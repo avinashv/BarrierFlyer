@@ -111,10 +111,17 @@ class PlayState extends FlxState {
     }
     
     private function handleShipMovement() {
+        var left = FlxG.keys.anyPressed([LEFT, A]);
+        var right = FlxG.keys.anyPressed([RIGHT, D]);
+        
+        // cancel out opposing movement
+        if (left && right)
+            left = right = false;
+            
         // control ship
-        if (FlxG.keys.pressed.LEFT)
+        if (left)
             ship.velocity.x = -SHIP_X_SPEED;
-        else if (FlxG.keys.pressed.RIGHT)
+        else if (right)
             ship.velocity.x = SHIP_X_SPEED;
         else
             ship.velocity.x = 0;
